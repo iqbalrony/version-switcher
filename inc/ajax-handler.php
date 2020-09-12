@@ -40,7 +40,11 @@ function wpvs__ajax_handler_func() {
             }
             echo $option_html;
         }else{
-            echo "<option value='' >".esc_html__( 'No Version Found', '@version-switcher' )."</option>";
+            if( array_key_exists('errors',$versions) ){
+                echo "<option value='' >".esc_html__( 'Plugin is not found in WordPress ORG', '@version-switcher' )."</option>";
+            }else{
+                echo "<option value='' >".esc_html__( 'No Version Found', '@version-switcher' )."</option>";
+            }
         }
 	endif;
 	wp_die();

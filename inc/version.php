@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Version {
 
+
+
 	 /**
 	 * Version Switch
 	 */
@@ -18,8 +20,6 @@ class Version {
 		if ( empty( $version )  ) {
 			wp_die( __( 'Error occurred, The version selected is invalid. Try selecting different version.', 'elementor' ) );
 		}
-
-		// $plugin_slug = basename( ELEMENTOR__FILE__, '.php' );
 
 		$switch = new Switcher(
 			[
@@ -39,89 +39,55 @@ class Version {
 		);
 	}
 
-	 /**
-	 * Get Installed Plugin Info
-	 */
-	public static function get_all_installed_plugin(){
-        if ( ! function_exists( 'get_plugins' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-        $all_plugins = get_plugins();
-        $all_plugins_slug = [];
-        foreach ( $all_plugins as $key => $value) {
-            $slug = substr( $key, 0, strpos($key,'/') );
-            if( empty($slug) ){
-                $slug = basename( $key, '.php' );
-            }
-            $all_plugins_key[] = [
-                'key' => $key,
-                'name' => $value['Name'],
-                'text_domain' => $value['TextDomain'],
-                'plugin_slug' => $slug,
-                'transient_key' => str_replace("-","_",$slug),
-            ];
-            $all_plugins_slug[] = $slug;
-        }
-        
-        return $all_plugins_key;
-    }
+
 
 	 /**
-	 * Get update plugin Info
+	 * Set plugin info
 	 */
-	public static function gest_all_installed_plugin(){
-        if ( ! function_exists( 'get_plugins' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-        $all_plugins = get_plugins();
-        $all_plugins_slug = [];
-        foreach ( $all_plugins as $key => $value) {
-            $slug = substr( $key, 0, strpos($key,'/') );
-            if( empty($slug) ){
-                $slug = basename( $key, '.php' );
-            }
-            $all_plugins_key[] = [
-                'key' => $key,
-                'name' => $value['Name'],
-                'text_domain' => $value['TextDomain'],
-                'plugin_slug' => $slug,
-                'transient_key' => str_replace("-","_",$slug),
-            ];
-            $all_plugins_slug[] = $slug;
+	public static function set_plugin_info(){
+
+        $plugin_page = admin_url( 'plugins.php' );
+        if ( empty( $_GET['vs_plugin_slug'] ) && empty( $_GET['vs_plugin_name'] )  ) {
+            return;
         }
         
-        return $all_plugins_key;
-    }
+        $slug = $_GET['vs_plugin_slug'];
+        $name = $_GET['vs_plugin_name'];
 
-    /**
-	 * Save all Plugin version
-	 */
-    public static function save_all_plugin_versions() {
+        $transient_key = wpvs_get_key( 'added_plugin' );
     
-        $all_plugins = self::get_all_installed_plugin();
+        $added_plugin = get_transient( $transient_key );
 
-        if( !function_exists('plugins_api') ){
-            require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+        if ( false === $added_plugin ) {
+
+            $added_plugin = [
+                $slug => $name,
+            ];
+
+            set_transient( $transient_key,$added_plugin );
+
+        } elseif( is_array($added_plugin) && !in_array( $name, $added_plugin) ){
+
+            $old_array = $added_plugin;
+            $new_array = [
+                $slug => $name,
+            ];
+            
+            $added_plugin = array_merge( $old_array, $new_array );
+            set_transient( $transient_key,$added_plugin );
         }
-    
-        foreach ( $all_plugins as $key => $value ) {
-    
-            $transient_key = wpvs_get_key( $value['plugin_slug'] );
-    
-            $get_versions = get_transient( $transient_key );
 
-            // echo '<pre>';
-            // var_dump($value['plugin_slug']);
-            // var_dump($get_versions);
-            // echo '</pre>';
+        
+        $versions_transient_key = wpvs_get_key( $slug );
+        self::save_version_data ( $slug, $versions_transient_key);
+        
 
-            if ( false === $get_versions ) {    
-                self::save_version_data ($value['plugin_slug'],$transient_key);
-
-            }
-        }
+        wp_redirect( $plugin_page );
     }
     
+
+
+
     
     /**
 	 * Save version to transient.
@@ -184,6 +150,69 @@ class Version {
         }
     
     }
+
+
+
+
+
+    /**
+	 * Save all Plugin version
+	 */
+    public static function save_all_plugin_versions() {
+    
+        $all_plugins = self::get_all_installed_plugin();
+
+        if( !function_exists('plugins_api') ){
+            require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+        }
+    
+        foreach ( $all_plugins as $key => $value ) {
+    
+            $transient_key = wpvs_get_key( $value['plugin_slug'] );
+    
+            $get_versions = get_transient( $transient_key );
+
+            // echo '<pre>';
+            // var_dump($value['plugin_slug']);
+            // var_dump($get_versions);
+            // echo '</pre>';
+
+            if ( false === $get_versions ) {    
+                self::save_version_data ($value['plugin_slug'],$transient_key);
+
+            }
+        }
+    }
+
+
+
+
+    /**
+    * Get Installed Plugin Info
+    */
+   public static function get_all_installed_plugin(){
+       if ( ! function_exists( 'get_plugins' ) ) {
+           require_once ABSPATH . 'wp-admin/includes/plugin.php';
+       }
+       $all_plugins = get_plugins();
+       $all_plugins_slug = [];
+       foreach ( $all_plugins as $key => $value) {
+           $slug = substr( $key, 0, strpos($key,'/') );
+           if( empty($slug) ){
+               $slug = basename( $key, '.php' );
+           }
+           $all_plugins_key[] = [
+               'key' => $key,
+               'name' => $value['Name'],
+               'text_domain' => $value['TextDomain'],
+               'plugin_slug' => $slug,
+               'transient_key' => str_replace("-","_",$slug),
+           ];
+           $all_plugins_slug[] = $slug;
+       }
+       
+       return $all_plugins_key;
+   }
 
 
 

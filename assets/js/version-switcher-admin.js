@@ -9,10 +9,10 @@
 		// Ajax
 		function ajaxClickHandlerfunction(e) {
 			e.preventDefault();
-			console.log('on change');
+			// console.log('on change');
 			var pluginSlug = e.currentTarget.options[e.currentTarget.options.selectedIndex].value;
-			console.log(e);
-			console.log(pluginSlug);
+			// console.log(e);
+			// console.log(pluginSlug);
 			// return;
 			var self = $(this);
 			var versionWrap = $('.wpvs-plugin-version-select');

@@ -16,6 +16,13 @@ function wpvs_get_key( $slug ){
 
 
 
+
+/* 
+=====================================================================
+	This is Garbage Codes, it will remove after work is done
+=========================================================================
+*/
+
 // wpvs_version_switcher_advanced_custom_fields
 // wpvs_version_switcher_advanced_wp_reset
 // wpvs_version_switcher_akismet
@@ -39,6 +46,15 @@ function _delete_transient() {
 
 }
 _delete_transient();
+// wp-user-switch
+
+// delete_transient( wpvs_get_key( 'added_plugin' ) );
+// delete_transient( wpvs_get_key( 'advanced-wp-reset' ) );
+
+// echo '<pre>';
+// var_dump(get_transient( WPVS_KEY.'added_plugin' ));
+// var_dump(get_transient( WPVS_KEY.'advanced_custom_fields' ));
+// echo '</pre>';
 
 
 
@@ -68,172 +84,34 @@ function get_all_installed_plugin_info(){
 
 function abc(){
 	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	$transient_key = 'wpvs_version_switcher_';
-	delete_transient( 'wpvs_plugin_api' );
-	$plgin_info = get_transient( 'wpvs_plugin_api' );
-	if ( false === $plgin_info ) {
-		$plgin_info = plugins_api(
-			'plugin_information', [
-				'slug' => 'advanced-wp-reset',
-				'fields' => [
-					'version' => true,
-					'versions' => true,
-					'contributors' => false,
-					'short_description' => false,
-					'description' => false,
-					'sections' => false,
-					'screenshots' => false,
-					'tags' => false,
-					'donate_link' => false,
-					'ratings' => false,
-				]
-			]
-		);
-		set_transient( 'wpvs_plugin_api', $plgin_info );
-	}
 
+	$transient_key = wpvs_get_key( 'added_plugin' );
 
-	// $all_slugs = get_all_installed_plugin_info();
-	// foreach ( $all_slugs as $key => $value ) {
+	// delete_transient( $transient_key );
 
-	// 	$transient_key = $transient_key. str_replace("-","_",$value);
+	$all_slugs = get_transient( $transient_key );
 
-	// 	$rollback_versions = get_transient( $transient_key );
-	// 	echo '<pre>';
-	// 	var_dump($rollback_versions);
-	// 	echo '</pre>';
-	// }
-
-	// $plgin_info = get_transient( $transient_key.str_replace("-","_",'essential-addons-for-elementor-lite') );
-
-	// if ( false === $plgin_info ) {
-	// 	save_version_data ('advanced-custom-fields','wpvs_plugin_api');
-	// }
 	
-	echo '<pre>';
-	var_dump(array_key_exists('errors',$plgin_info));
-	// var_dump(property_exists($plgin_info,'errors'));
-	var_dump( $plgin_info );
-	echo '</pre>';
-}
-
-add_action('wp_footer','abc');
-
-// wpvs_version_switcher_advanced_custom_fields
-// wpvs_version_switcher_advanced_wp_reset
-// wpvs_version_switcher_akismet
-// wpvs_version_switcher_elementskit
-// wpvs_version_switcher_essential_addons_elementor
-// wpvs_version_switcher_happy_elementor_addons
-// wpvs_version_switcher_wp_user_switch
-
-// save_version_data ('advanced-custom-fields','wpvs_version_switcher_advanced_custom_fields');
-// save_version_data ('advanced-wp-reset','wpvs_version_switcher_advanced_wp_reset');
-// save_version_data ('akismet','wpvs_version_switcher_akismet');
-// save_version_data ('elementskit','wpvs_version_switcher_elementskit');
-// save_version_data ('essential-addons-elementor','wpvs_version_switcher_essential_addons_elementor');
-// save_version_data ('happy-elementor-addons','wpvs_version_switcher_happy_elementor_addons');
-// save_version_data ('wp-user-switch','wpvs_version_switcher_wp_user_switch');
-// save_version_data ('elementskit-lite','wpvs_version_switcher_elementskit_lite');
-
-
-
-
-
-function get_all_plugin_versions() {
-
-	$all_slugs = get_all_installed_plugin_info();
-
-	$transient_key = 'wpvs_version_switcher_';
-	if( !function_exists('plugins_api') ){
-		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	}
 
 	foreach ( $all_slugs as $key => $value ) {
-
-		$transient_key = $transient_key. str_replace("-","_",$value);
-
-		$rollback_versions = get_transient( $transient_key );
 		echo '<pre>';
+		var_dump($key);
 		var_dump($value);
-		var_dump($rollback_versions);
 		echo '</pre>';
-		if ( false === $rollback_versions ) {
-			$max_versions = 20;
 
-			save_version_data ($value,$transient_key,$max_versions);
-			
-		}
-	}
-	// $update_plugins = get_site_transient( 'update_plugins' );
-	// $plugin_info = new \stdClass();
-	// echo '<pre>';
-	// var_dump($rollback_versions);
-	// var_dump($update_plugins);
-	// var_dump($plugin_info);
-	// echo '</pre>';
-	// return;
-	// return $rollback_versions;
-}
-
-// get_all_plugin_versions();
-
-// add_action('wp_footer','get_all_plugin_versions');
-
-
-
-function save_version_data ($plugin_slug,$transient_key,$return = false,$max_versions =100000){
-
-	if ( ! function_exists( 'get_plugins' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	}
-
-	$plugin_information = plugins_api(
-		'plugin_information', [
-			'slug' => $plugin_slug,
-			'fields' => [
-				'version' => true,
-				'versions' => true,
-				'contributors' => false,
-				'short_description' => false,
-				'description' => false,
-				'sections' => false,
-				'screenshots' => false,
-				'tags' => false,
-				'donate_link' => false,
-				'ratings' => false,
-			]
-		]
-	);
-
-
-	if ( !empty( $plugin_information->versions ) || is_array( $plugin_information->versions ) ) {
+		$versions_transient_key = wpvs_get_key( $key );
+		$version_info = get_transient( $versions_transient_key );
 	
-		krsort( $plugin_information->versions );
-
-		$rollback_versions = [];
-
-		$current_index = 0;
-		foreach ( $plugin_information->versions as $version => $download_link ) {
-			if ( $max_versions <= $current_index ) {
-				break;
-			}
-
-			// if ( version_compare( $version, ELEMENTOR_VERSION, '>=' ) ) {
-			// 	continue;
-			// }
-
-			if ( 'trunk' === $version) {
-				continue;
-			}
-
-			$current_index++;
-			$rollback_versions[] = $version;
-		}
-		set_transient( $transient_key, $rollback_versions );
-		// set_transient( 'elementor_rollback_versions_' . ELEMENTOR_VERSION, $rollback_versions, WEEK_IN_SECONDS );
-	}else{
-		set_transient( $transient_key, $plugin_information );
+		echo '<pre>';
+		var_dump($version_info);
+		echo '</pre>';
 	}
-
+	
+	// echo '<pre>';
+	// var_dump(array_key_exists('errors',$plgin_info));
+	// // var_dump(property_exists($plgin_info,'errors'));
+	// var_dump( $plgin_info );
+	// echo '</pre>';
 }
+
+// add_action('wp_footer','abc');

@@ -26,3 +26,15 @@
 	margin-right: 25px;
 }
 
+.wpvs-settings .notice-info {
+    display: block;
+    overflow: hidden;
+    padding: 20px;
+    /* border-color: transparent; */
+    /* width: 100%; */
+    border-left-color: #00a0d2;
+    /* border-bottom: 0px; */
+    /* box-shadow: none; */
+    margin: 0;
+}
+

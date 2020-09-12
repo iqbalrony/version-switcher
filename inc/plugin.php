@@ -20,21 +20,26 @@ class VersionSwitcher {
 
 		add_filter( 'plugin_action_links', array( $this, 'set_add_action_links_in_plugin_page' ), PHP_INT_MAX, 4 );
 
+		Version::set_plugin_info();
+
+		// self::switch_version_apply();
+
 		// add_action( 'admin_post_wpvs_switcher', [ $this, 'version_switch' ] );
 	}
 
 
 	function set_add_action_links_in_plugin_page( $actions, $plugin_file, $plugin_data, $context ) {
-
-		// echo '<pre>';
-		// var_dump($plugin_data);
-		// echo '</pre>';
-		$actions = array_merge( $actions, array(
-			'<a href="' . admin_url( 'plugins.php?alg_download_plugin=' ) . '">' .
-				__( 'Add To Version Switcher', 'download-plugins-dashboard' ) . '</a>' )
-		);
+		if ( isset( $plugin_data['slug'] ) && isset( $plugin_data['Name'] ) ) {
+			$query = '?vs_plugin_slug='.$plugin_data['slug'].'&vs_plugin_name='.$plugin_data['Name'];
+			$actions = array_merge( $actions, array(
+				'<a href="' . admin_url( 'plugins.php' ) .$query . '">' .
+					__( 'Add To Version Switcher', 'download-plugins-dashboard' ) . '</a>' )
+			);
+		}
 		return $actions;
 	}
+
+
 
 	/**
 	 * Function for enqueue all scripts
@@ -51,6 +56,8 @@ class VersionSwitcher {
 		));
 	}
 
+
+
 	/**
 	 * Include files
 	 */
@@ -59,6 +66,8 @@ class VersionSwitcher {
 		require_once(wpvs_get_plugin_path('inc/switcher.php'));
 		require_once(wpvs_get_plugin_path('inc/ajax-handler.php'));
 	}
+
+
 
 	/**
 	 * Add menu page
@@ -74,12 +83,48 @@ class VersionSwitcher {
 		);
 	}
 
+
+
 	/**
 	 * Include setting page markup
 	 */
 	public function menu_page_markup () {
 		require_once wpvs_get_plugin_path( 'templates/settings.php' );
 	}
+
+
+	
+	/**
+	 * Switch Version Apply
+	 */
+	public static function switch_version_apply(){
+
+		// $plugin_page = admin_url( 'plugins.php' );
+		// echo '<pre>';
+		// var_dump( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) );
+		// echo '</pre>';
+
+		if ( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['slug'] ) && empty( $_POST['version'] ) ) {
+			return;
+		}
+
+		$all_slugs = get_transient( wpvs_get_key( 'added_plugin' ) );
+		if( is_array($all_slugs) && !array_key_exists( $_POST['slug'], $all_slugs) ){
+			return;
+		}
+		
+		$all_version = get_transient( wpvs_get_key( $_POST['slug'] ) );
+		if( is_array($all_version) && !in_array( $_POST['version'], $all_version) ){
+			return;
+		}
+		
+		Version::version_switch( $_POST['slug'], $_POST['version'] );
+
+    }
 
 
 	public static function instance() {
