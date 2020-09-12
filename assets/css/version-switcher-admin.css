@@ -1,0 +1,28 @@
+.wpvs-settings-area {
+	background: #ffffff;
+	padding: 40px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+	margin: 15px 15px 0 0;
+}
+
+
+.wpvs-settings-title {
+	font-size: 30px;
+	margin-top: 0;
+}
+
+.wpvs-plugin-name-area,
+.wpvs-plugin-version-area {
+	display: flex;
+	align-items: center;
+}
+
+.wpvs-plugin-name-area {
+    margin-bottom: 35px;
+}
+
+.wpvs-plugin-name,
+.wpvs-plugin-version {
+	margin-right: 25px;
+}
+
