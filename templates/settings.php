@@ -22,13 +22,18 @@ $all_plugins = get_transient( $transient_key );
 		<div class="wpvs-settings">
 			<?php
 				if( empty($all_plugins) || !is_array($all_plugins) ){
-					// echo '<span class="notice notice-info">' . esc_html__( 'No Plugin Added to list', '@version-switcher' ) . '</span>';
 
-					printf('<span class="notice notice-info">%s<a href="%s">%s</a></span>',
-					__( 'No Plugin Added to Version Switcher. ', '@version-switcher' ),
-					admin_url( 'plugins.php' ),
-					__( 'Please ADD.', '@version-switcher' )
-				);
+					printf('<span class="notice notice-info">%s
+							<a href="%s">%s
+								<img src="%s" alt="version-switcher-info" class="wpvs-info-image">
+							</a>
+							</span>',
+						__( 'No Plugin Added to Version Switcher List. ', '@version-switcher' ),
+						admin_url( 'plugins.php' ),
+						__( 'Please ADD.', '@version-switcher' ),
+						esc_url(wpvs_plugin_url('/assets/images/vs-info.png'))
+					);
+					
 				}
 			?>
 			<?php if( $all_plugins ): ?>

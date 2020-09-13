@@ -28,7 +28,7 @@
 
 .wpvs-settings .notice-info {
     display: block;
-    overflow: hidden;
+    /* overflow: hidden; */
     padding: 20px;
     /* border-color: transparent; */
     /* width: 100%; */
@@ -36,5 +36,29 @@
     /* border-bottom: 0px; */
     /* box-shadow: none; */
     margin: 0;
+    font-size: 20px;
+}
+.wpvs-settings .notice-info a {
+    position: relative;
+}
+/* .wpvs-settings .notice-info i {
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+} */
+
+.wpvs-settings .notice-info img.wpvs-info-image {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s;
 }
 
+.wpvs-settings .notice-info img.wpvs-info-image.active {
+    opacity: 1;
+    visibility: visible;
+}

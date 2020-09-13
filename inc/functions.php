@@ -9,6 +9,21 @@ function wpvs_get_key( $slug ){
 	return $transient_key;
 }
 
+/* 
+	Delete All cache
+*/
+function wpvs_delete_all_cache(){
+	$transient_key = wpvs_get_key( 'added_plugin' );
+	$all_slugs = get_transient( $transient_key );
+	if( $all_slugs ){
+		foreach ( $all_slugs as $key => $value ) {
+			delete_transient( wpvs_get_key( $key ) );
+		}
+		delete_transient( $transient_key );
+	}
+}
+
+// add_action('wp_footer','wpvs_delete_all_cache');
 
 
 

@@ -4,7 +4,18 @@
 	$(document).ready(function($){
 		console.log('its work');
 
-
+		//Notice hover image
+		function mouseMovement(e){
+			var self = $(this);
+			if( 'mouseenter' === e.type){
+				self.find('img').addClass('active');
+			}else{
+				self.find('img').removeClass('active');
+			}
+		}
+		var notice = $('.wpvs-settings .notice-info a');
+		notice.mouseenter( mouseMovement);
+		notice.mouseleave( mouseMovement);
 
 		// Ajax
 		function ajaxClickHandlerfunction(e) {
