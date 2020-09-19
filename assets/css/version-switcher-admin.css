@@ -25,7 +25,11 @@
 .wpvs-plugin-version {
 	margin-right: 25px;
 }
-
+.wpvs-settings .wpvs-plugin-version-select i.dashicons-before.dashicons-update-alt {
+    color: #f56e28;
+    display: inline-block;
+    animation: rotation 2s infinite linear
+}
 .wpvs-settings .notice-info {
     display: block;
     /* overflow: hidden; */

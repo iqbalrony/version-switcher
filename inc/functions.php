@@ -13,20 +13,25 @@ function wpvs_get_key( $slug ){
 	Delete All cache
 */
 function wpvs_delete_all_cache(){
-	$transient_key = wpvs_get_key( 'added_plugin' );
-	$all_slugs = get_transient( $transient_key );
+	
+	$all_slugs = IqbalRony\Version::get_all_installed_plugin();
 	if( $all_slugs ){
 		foreach ( $all_slugs as $key => $value ) {
-			delete_transient( wpvs_get_key( $key ) );
+			//delete_transient( wpvs_get_key( $value['plugin_slug'] ) );
+			$all_version = get_transient(  wpvs_get_key( $value['plugin_slug'] ) );
+			echo '<pre>';
+			var_dump( $value['name'] );
+			var_dump( $all_version );
+			echo '</pre>';
 		}
-		delete_transient( $transient_key );
 	}
 }
-
 // add_action('wp_footer','wpvs_delete_all_cache');
 
 
-
+// echo '<pre>';
+// var_dump(get_plugin_updates());
+// echo '</pre>';
 
 
 
@@ -95,38 +100,5 @@ function get_all_installed_plugin_info(){
 	}
 	
 	return $all_plugins_key;
+	// return $all_plugins ;
 }
-
-function abc(){
-	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-
-	$transient_key = wpvs_get_key( 'added_plugin' );
-
-	// delete_transient( $transient_key );
-
-	$all_slugs = get_transient( $transient_key );
-
-	
-
-	foreach ( $all_slugs as $key => $value ) {
-		echo '<pre>';
-		var_dump($key);
-		var_dump($value);
-		echo '</pre>';
-
-		$versions_transient_key = wpvs_get_key( $key );
-		$version_info = get_transient( $versions_transient_key );
-	
-		echo '<pre>';
-		var_dump($version_info);
-		echo '</pre>';
-	}
-	
-	// echo '<pre>';
-	// var_dump(array_key_exists('errors',$plgin_info));
-	// // var_dump(property_exists($plgin_info,'errors'));
-	// var_dump( $plgin_info );
-	// echo '</pre>';
-}
-
-// add_action('wp_footer','abc');

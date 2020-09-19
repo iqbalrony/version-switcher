@@ -44,16 +44,16 @@
 					versionWrap.append( loadingIcon );
 				},
 				success: function(response) {
-					console.log(typeof response);
-					console.log(response.length);
-					console.log(response);
+					// console.log(typeof response);
+					// console.log(response.length);
+					// console.log(response);
 
 					// var html = $.parseHTML( response );
 					if( response.length > 0 ){
 						versionSelect.html( response );
 						versionSelect.removeAttr('disabled');
-						versionWrap.find('.dashicons-before').remove();
 					}
+					versionWrap.find('.dashicons-before').remove();
 					// if( response ){
 					// 	$main_wrapper.find('.wpvs-masonry-container').append( html )
 					// 	$main_wrapper.find('.wpvs-masonry-container').isotope( 'appended', html ).isotope('layout');

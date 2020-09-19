@@ -8,6 +8,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Version {
 
 
+    public static function switch_version_apply(){
+
+		// $plugin_page = admin_url( 'plugins.php' );
+		// echo '<pre>';
+		// var_dump( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) );
+		// echo '</pre>';
+
+		if ( !current_user_can( 'activate_plugins' ) && !current_user_can( 'delete_plugins' ) ) {
+			return;
+        }
+        
+		if ( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['slug'] ) && empty( $_POST['version'] ) ) {
+			return;
+		}
+
+		$all_slugs = get_transient( wpvs_get_key( 'added_plugin' ) );
+		if( is_array($all_slugs) && !array_key_exists( $_POST['slug'], $all_slugs) ){
+			return;
+		}
+		
+		$all_version = get_transient( wpvs_get_key( $_POST['slug'] ) );
+		if( is_array($all_version) && !in_array( $_POST['version'], $all_version) ){
+			return;
+		}
+		
+		Version::version_switch( $_POST['slug'], $_POST['version'] );
+
+    }
 
 	 /**
 	 * Version Switch
@@ -94,7 +126,7 @@ class Version {
 	 */
     public static function save_version_data ($plugin_slug,$transient_key,$return = false,$max_versions =100000){
     
-        if ( ! function_exists( 'get_plugins' ) ) {
+        if ( ! function_exists( 'plugins_api' ) ) {
             require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         }
     
@@ -186,7 +218,6 @@ class Version {
 
 
 
-
     /**
     * Get Installed Plugin Info
     */
@@ -212,6 +243,33 @@ class Version {
        }
        
        return $all_plugins_key;
+   }
+
+
+    /**
+    * Get update plugin info
+    */
+   public static function get_updates_plugin(){
+       if ( ! function_exists( 'get_plugins' ) ) {
+           require_once ABSPATH . 'wp-admin/includes/plugin.php';
+       }
+       $update_info = get_plugin_updates();
+       $update_vs = [];
+    
+        foreach ( (array) $update_info as $key => $object ) {
+            $slug = str_replace("-","_",$object->update->slug);
+            $update_vs[ $slug ] = $object->update->new_version ;
+        }
+
+       return $update_vs;
+   }
+
+    /**
+    * Check is update version ixist in cache
+    */
+   public static function is_version_exist_in_cache( array $all_versions, $key ){
+       $update_info = self::get_updates_plugin();
+       return in_array( $update_info[$key], $all_versions );
    }
 
 
