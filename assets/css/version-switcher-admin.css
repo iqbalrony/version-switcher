@@ -7,14 +7,24 @@
 
 
 .wpvs-settings-title {
-	font-size: 30px;
-	margin-top: 0;
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+.wpvs-settings-area p.main-desc {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.wpvs-settings {
+    margin-top: 35px;
+    display: block;
 }
 
 .wpvs-plugin-name-area,
 .wpvs-plugin-version-area {
 	display: flex;
-	align-items: center;
+	align-items: start;
 }
 
 .wpvs-plugin-name-area {
@@ -23,35 +33,58 @@
 
 .wpvs-plugin-name,
 .wpvs-plugin-version {
-	margin-right: 25px;
+    margin-right: 25px;
+    min-width: 120px;
+}
+.wpvs-plugin-name h2,
+.wpvs-plugin-version h2 {
+    margin-top: 0;
+}
+.wpvs-plugin-version-select {
+    position: relative;
+}
+.wpvs-plugin-name-select select,
+.wpvs-plugin-version-select select {
+    width: 250px;
 }
 .wpvs-settings .wpvs-plugin-version-select i.dashicons-before.dashicons-update-alt {
     color: #f56e28;
     display: inline-block;
-    animation: rotation 2s infinite linear
+    animation: rotation 2s infinite linear;
+    position: absolute;
+    top: 4px;
+    right: -23px;
 }
-.wpvs-settings .notice-info {
+
+.wpvs-plugin-version-select .notice{
+    margin: 0;
+    box-sizing: border-box;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    font-size: 16px;
+    padding: 17px;
+    display: none;
+}
+
+
+/* .wpvs-settings .notice-info {
     display: block;
-    /* overflow: hidden; */
     padding: 20px;
-    /* border-color: transparent; */
-    /* width: 100%; */
     border-left-color: #00a0d2;
-    /* border-bottom: 0px; */
-    /* box-shadow: none; */
     margin: 0;
     font-size: 20px;
 }
 .wpvs-settings .notice-info a {
     position: relative;
-}
+} */
 /* .wpvs-settings .notice-info i {
     position: relative;
     font-size: 24px;
     cursor: pointer;
 } */
 
-.wpvs-settings .notice-info img.wpvs-info-image {
+/* .wpvs-settings .notice-info img.wpvs-info-image {
     position: absolute;
     top: 100%;
     left: 50%;
@@ -65,4 +98,4 @@
 .wpvs-settings .notice-info img.wpvs-info-image.active {
     opacity: 1;
     visibility: visible;
-}
+} */

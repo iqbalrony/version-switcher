@@ -51,6 +51,37 @@ class Switcher {
 	 * modifies package data to update the plugin from a specific URL containing
 	 * the version package.
 	 */
+	protected function active_plugin() {
+		$all_plugins = Version::get_all_installed_plugin();
+		$redirect = admin_url( 'plugins.php' );
+		if ( !is_array( $all_plugins ) ) {
+			return;
+		}
+		$id = array_search( $this->plugin_slug , array_column($all_plugins, 'plugin_slug') );
+		$plugin_path = $all_plugins[$id]['key'];
+
+		if ( ! current_user_can('activate_plugins') ){
+			wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
+		}
+		
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+		// check for plugin using plugin name
+		if ( !is_plugin_active( $plugin_path ) ) {
+			activate_plugin( $plugin_path, $redirect );
+		} 
+		// wp_redirect( admin_url( 'plugins.php' ) );
+
+	}
+
+	/**
+	 * Apply package.
+	 *
+	 * Change the plugin data when WordPress checks for updates. This method
+	 * modifies package data to update the plugin from a specific URL containing
+	 * the version package.
+	 */
 	protected function apply_package() {
 		$update_plugins = get_site_transient( 'update_plugins' );
 		if ( ! is_object( $update_plugins ) ) {
@@ -100,5 +131,6 @@ class Switcher {
 	public function run() {
 		$this->apply_package();
 		$this->upgrade();
+		// $this->active_plugin();
 	}
 }

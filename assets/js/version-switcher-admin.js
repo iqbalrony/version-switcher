@@ -28,8 +28,10 @@
 			var self = $(this);
 			var versionWrap = $('.wpvs-plugin-version-select');
 			var versionSelect = versionWrap.find('select');
+			var notice = versionWrap.find('.notice');
 			var loadingIcon = $('<i class="dashicons-before dashicons-update-alt"></i>');
 			
+			self.attr("disabled", true);
 			versionSelect.attr("disabled", true);
 			
 			$.ajax({
@@ -53,7 +55,18 @@
 						versionSelect.html( response );
 						versionSelect.removeAttr('disabled');
 					}
+					self.removeAttr('disabled');
 					versionWrap.find('.dashicons-before').remove();
+					
+					if( 'object' == typeof response && response.success == false ){
+						notice.text( response.data );
+						notice.css({"display": "block"});
+						setTimeout( function(){
+							notice.slideUp();
+						},2000);
+					}
+					
+
 					// if( response ){
 					// 	$main_wrapper.find('.wpvs-masonry-container').append( html )
 					// 	$main_wrapper.find('.wpvs-masonry-container').isotope( 'appended', html ).isotope('layout');

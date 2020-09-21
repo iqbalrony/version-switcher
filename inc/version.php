@@ -8,6 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Version {
 
 
+    public static function run(){
+
+		// add_action( 'shutdown', [ __CLASS__, 'switch_version_apply' ] );
+
+    }
+
     public static function switch_version_apply(){
 
 		// $plugin_page = admin_url( 'plugins.php' );

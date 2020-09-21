@@ -20,9 +20,10 @@ class VersionSwitcher {
 
 		// add_filter( 'plugin_action_links', array( $this, 'set_add_action_links_in_plugin_page' ), PHP_INT_MAX, 4 );
 
-		// Version::switch_version_apply();
+		// Version::run();
 
 		// add_action( 'admin_post_wpvs_switcher', [ $this, 'version_switch' ] );
+		
 	}
 
 

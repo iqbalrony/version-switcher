@@ -42,11 +42,15 @@ function wpvs__ajax_handler_func() {
                 }
                 echo $option_html;
             }else{
-                echo "<option value='' >".esc_html__( 'Plugin is not found in WordPress ORG', '@version-switcher' )."</option>";
+                $error = __( 'Plugin is not found in WordPress ORG', '@version-switcher' );
+                wp_send_json_error( $error );
+                // echo "<option value='' >".esc_html__( 'Plugin is not found in WordPress ORG', '@version-switcher' )."</option>";
             }
             
         }else{
-            echo "<option value='' >".esc_html__( 'No Version Found', '@version-switcher' )."</option>";
+            $error = __( 'No Version Found', '@version-switcher' );
+            wp_send_json_error( $error );
+            // echo "<option value='' >".esc_html__( 'No Version Found', '@version-switcher' )."</option>";
         }
 	endif;
 	wp_die();
