@@ -47,5 +47,5 @@ function wpvs_start_version_swithc() {
 
     IqbalRony\VersionSwitcher::instance()->init();
 }
-
+register_deactivation_hook( __FILE__, 'wpvs_delete_all_cache' );
 
