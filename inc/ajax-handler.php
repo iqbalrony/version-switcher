@@ -1,9 +1,8 @@
 <?php
-// namespace IqbalRony;
+
 /**
  * Post Type Ajax Load More
  */
-
 add_action('wp_ajax_wpvs_get_all_version', 'wpvs__ajax_handler_func');
 function wpvs__ajax_handler_func() {
 
@@ -36,9 +35,7 @@ function wpvs__ajax_handler_func() {
         }
 
         $versions = $versions ? $versions : [];
-        // echo '<pre>';
-        // var_dump($versions);
-        // echo '</pre>';
+
         if( !empty($versions) ){
             if( !array_key_exists('errors',$versions) ){
                 $option_html = "<option value='' >".esc_html__( 'Select Version', '@version-switcher' )."</option>";
@@ -49,13 +46,11 @@ function wpvs__ajax_handler_func() {
             }else{
                 $error = __( 'Plugin is not found in WordPress ORG', '@version-switcher' );
                 wp_send_json_error( $error );
-                // echo "<option value='' >".esc_html__( 'Plugin is not found in WordPress ORG', '@version-switcher' )."</option>";
             }
             
         }else{
             $error = __( 'No Version Found', '@version-switcher' );
             wp_send_json_error( $error );
-            // echo "<option value='' >".esc_html__( 'No Version Found', '@version-switcher' )."</option>";
         }
 	endif;
 	wp_die();

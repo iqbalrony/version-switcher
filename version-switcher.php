@@ -1,15 +1,17 @@
 <?php
-/*
-Plugin Name: Version Switcher
-Plugin URI: https://example.com
-Description: this is custom post type messonary plugin.
-Author: No One
-Version: 1.0.0
-Author URI: https://example.com
-Text Domain: version-switcher @version-switcher
+/**
+ * Plugin Name: Version Switcher
+ * Description: this is custom post type messonary plugin.
+ * Author: IqbalRony
+ * Author URI: http://www.iqbalrony.com
+ * Version: 1.0.0
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: version-switcher
 */
 
 // version-switcher
+// version-switcher @version-switcher
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
 	die;

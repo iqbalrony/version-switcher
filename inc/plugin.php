@@ -17,28 +17,7 @@ class VersionSwitcher {
 		self::include_file();
 
 		add_action( 'admin_menu', array( $this, 'menu_page' ) );
-
-		// add_filter( 'plugin_action_links', array( $this, 'set_add_action_links_in_plugin_page' ), PHP_INT_MAX, 4 );
-
-		// Version::run();
-
-		// add_action( 'admin_post_wpvs_switcher', [ $this, 'version_switch' ] );
 		
-	}
-
-
-	function set_add_action_links_in_plugin_page( $actions, $plugin_file, $plugin_data, $context ) {
-		// echo '<pre>';
-		// var_dump($plugin_data);
-		// echo '</pre>';
-		if ( isset( $plugin_data['slug'] ) && isset( $plugin_data['Name'] ) ) {
-			$query = '?vs_plugin_slug='.$plugin_data['slug'].'&vs_plugin_name='.$plugin_data['Name'];
-			$actions = array_merge( $actions, array(
-				'<a href="' . admin_url( 'plugins.php' ) .$query . '">' .
-					__( 'Add To Version Switcher', 'download-plugins-dashboard' ) . '</a>' )
-			);
-		}
-		return $actions;
 	}
 
 

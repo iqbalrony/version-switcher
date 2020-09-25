@@ -21,22 +21,18 @@ class Version {
 		// var_dump( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) );
 		// echo '</pre>';
 
-		if ( !current_user_can( 'activate_plugins' ) && !current_user_can( 'delete_plugins' ) ) {
+		if ( !current_user_can( 'activate_plugins' ) || !current_user_can( 'delete_plugins' ) ) {
 			return;
         }
+
+		if ( empty( $_POST['slug'] ) || empty( $_POST['version'] ) ||  empty( $_POST['wpvs_submit'] ) ||  empty( $_POST['wpvs_nonce'] ) ) {
+			return;
+		}
         
-		if ( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) ) {
+		if ( $_POST['wpvs_submit'] !== 'submit' || !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) ) {
 			return;
 		}
 
-		if ( empty( $_POST['slug'] ) && empty( $_POST['version'] ) ) {
-			return;
-		}
-
-		$all_slugs = get_transient( wpvs_get_key( 'added_plugin' ) );
-		if( is_array($all_slugs) && !array_key_exists( $_POST['slug'], $all_slugs) ){
-			return;
-		}
 		
 		$all_version = get_transient( wpvs_get_key( $_POST['slug'] ) );
 		if( is_array($all_version) && !in_array( $_POST['version'], $all_version) ){
@@ -47,13 +43,13 @@ class Version {
 
     }
 
+
+
+
 	 /**
 	 * Version Switch
 	 */
 	public static function version_switch($plugin_slug,$version) {
-		// check_admin_referer( 'wpvs_switcher' );
-        $transient_key = wpvs_get_key( $plugin_slug );
-        $all_versions = get_transient( $transient_key );
         
 		if ( empty( $version )  ) {
 			wp_die( __( 'Error occurred, The version selected is invalid. Try selecting different version.', 'elementor' ) );
@@ -80,47 +76,27 @@ class Version {
 
 
 	 /**
-	 * Set plugin info
+	 * Save all cache key
 	 */
-	public static function set_plugin_info(){
+	public static function save_all_cache_key($key){
 
-        $plugin_page = admin_url( 'plugins.php' );
-        if ( empty( $_GET['vs_plugin_slug'] ) && empty( $_GET['vs_plugin_name'] )  ) {
-            return;
-        }
-        
-        $slug = $_GET['vs_plugin_slug'];
-        $name = $_GET['vs_plugin_name'];
+        $all_keys = get_transient( wpvs_get_key( 'cache_key' ) );
 
-        $transient_key = wpvs_get_key( 'added_plugin' );
-    
-        $added_plugin = get_transient( $transient_key );
+        if ( false === $all_keys ) {
 
-        if ( false === $added_plugin ) {
+            $added_key = [$key];
 
-            $added_plugin = [
-                $slug => $name,
-            ];
+            set_transient( wpvs_get_key( 'cache_key' ), $added_key );
 
-            set_transient( $transient_key,$added_plugin );
+        } elseif( is_array($all_keys) && !in_array( $key, $all_keys) ){
 
-        } elseif( is_array($added_plugin) && !in_array( $name, $added_plugin) ){
-
-            $old_array = $added_plugin;
-            $new_array = [
-                $slug => $name,
-            ];
+            $old_array = $all_keys;
+            $new_array = [$key];
             
             $added_plugin = array_merge( $old_array, $new_array );
-            set_transient( $transient_key,$added_plugin );
+            set_transient( wpvs_get_key( 'cache_key' ), $added_plugin );
         }
 
-        
-        $versions_transient_key = wpvs_get_key( $slug );
-        self::save_version_data ( $slug, $versions_transient_key);
-        
-
-        wp_redirect( $plugin_page );
     }
     
 
@@ -135,6 +111,8 @@ class Version {
         if ( ! function_exists( 'plugins_api' ) ) {
             require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         }
+
+        self::save_all_cache_key($transient_key);
     
         $plugin_information = plugins_api(
             'plugin_information', [
@@ -192,38 +170,6 @@ class Version {
 
 
 
-
-    /**
-	 * Save all Plugin version
-	 */
-    public static function save_all_plugin_versions() {
-    
-        $all_plugins = self::get_all_installed_plugin();
-
-        if( !function_exists('plugins_api') ){
-            require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-        }
-    
-        foreach ( $all_plugins as $key => $value ) {
-    
-            $transient_key = wpvs_get_key( $value['plugin_slug'] );
-    
-            $get_versions = get_transient( $transient_key );
-
-            // echo '<pre>';
-            // var_dump($value['plugin_slug']);
-            // var_dump($get_versions);
-            // echo '</pre>';
-
-            if ( false === $get_versions ) {    
-                self::save_version_data ($value['plugin_slug'],$transient_key);
-
-            }
-        }
-    }
-
-
-
     /**
     * Get Installed Plugin Info
     */
@@ -252,6 +198,7 @@ class Version {
    }
 
 
+
     /**
     * Get update plugin info
     */
@@ -263,12 +210,14 @@ class Version {
        $update_vs = [];
     
         foreach ( (array) $update_info as $key => $object ) {
-            $slug = str_replace("-","_",$object->update->slug);
+            $slug = str_replace( "-", "_", $object->update->slug );
             $update_vs[ $slug ] = $object->update->new_version ;
         }
 
        return $update_vs;
    }
+
+
 
     /**
     * Check is update version ixist in cache

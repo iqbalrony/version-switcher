@@ -45,11 +45,8 @@ class Switcher {
 	}
 
 	/**
-	 * Apply package.
+	 * Active Plugin.
 	 *
-	 * Change the plugin data when WordPress checks for updates. This method
-	 * modifies package data to update the plugin from a specific URL containing
-	 * the version package.
 	 */
 	protected function active_plugin() {
 		$all_plugins = Version::get_all_installed_plugin();
@@ -92,7 +89,6 @@ class Switcher {
 		$plugin_info->new_version = $this->version;
 		$plugin_info->slug = $this->plugin_slug;
 		$plugin_info->package = $this->package_url;
-		// $plugin_info->url = 'https://elementor.com/';
 
 		$update_plugins->response[ $this->plugin_name ] = $plugin_info;
 
