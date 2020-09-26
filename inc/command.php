@@ -22,7 +22,7 @@ class Command extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp vs change akismet 4.0.0
+	 *     wp vs change akismet 4.1.1
 	 *
 	 * @when after_wp_load
 	 */
