@@ -12,15 +12,16 @@ class VersionSwitcher {
 
 	public function init() {
 
-		/**
-		 * Enqueue Admin Scripts
-		 */
+		//enqueue admin style & scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-
+		
+		//includes file
 		self::include_file();
-
+		
+		//add plugin setting page
 		add_action( 'admin_menu', array( $this, 'menu_page' ) );
-
+		
+		//regiter commands
 		$this->registerCommands();
 
 	}
@@ -57,8 +58,8 @@ class VersionSwitcher {
 	 */
 	public function menu_page() {
 		add_menu_page(
-			__( 'Version Switcher', '@version-switcher' ),
-			__( 'Version Switcher', '@version-switcher' ),
+			__( 'Version Switcher', 'version-switcher' ),
+			__( 'Version Switcher', 'version-switcher' ),
 			'manage_options',
 			WPVS_MENU_PAGE_SLUG,
 			array( $this, 'menu_page_markup' ),
@@ -74,6 +75,9 @@ class VersionSwitcher {
 		require_once wpvs_get_plugin_path( 'templates/settings.php' );
 	}
 
+	/**
+	 * Register WP_CLI commnads
+	 */
 	public function registerCommands() {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			require_once wpvs_get_plugin_path( 'inc/command.php' );
@@ -81,7 +85,9 @@ class VersionSwitcher {
 		}
 	}
 
-
+	/**
+	 * Create this class instance
+	 */
 	public static function instance() {
 		self::$instance = new self();
 

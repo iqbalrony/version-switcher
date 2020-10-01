@@ -38,18 +38,18 @@ function wpvs__ajax_handler_func() {
 
         if( !empty($versions) ){
             if( !array_key_exists('errors',$versions) ){
-                $option_html = "<option value='' >".esc_html__( 'Select Version', '@version-switcher' )."</option>";
+                $option_html = "<option value='' >".esc_html__( 'Select Version', 'version-switcher' )."</option>";
                 foreach ( $versions as $version ) {
                     $option_html .= "<option value='{$version}'>$version</option>";
                 }
                 echo $option_html;
             }else{
-                $error = __( 'Plugin is not found in WordPress ORG', '@version-switcher' );
+                $error = __( 'Plugin is not found in WordPress ORG', 'version-switcher' );
                 wp_send_json_error( $error );
             }
             
         }else{
-            $error = __( 'No Version Found', '@version-switcher' );
+            $error = __( 'No Version Found', 'version-switcher' );
             wp_send_json_error( $error );
         }
 	endif;

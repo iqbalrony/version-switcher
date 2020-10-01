@@ -7,19 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Version {
 
-
-    public static function run(){
-
-		// add_action( 'shutdown', [ __CLASS__, 'switch_version_apply' ] );
-
-    }
-
+    /**
+	 * Switch version task apply
+	 */
     public static function switch_version_apply(){
-
-		// $plugin_page = admin_url( 'plugins.php' );
-		// echo '<pre>';
-		// var_dump( $_POST['wpvs_submit'] !== 'submit' && !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) );
-		// echo '</pre>';
 
 		if ( !current_user_can( 'activate_plugins' ) || !current_user_can( 'delete_plugins' ) ) {
 			return;
@@ -43,16 +34,13 @@ class Version {
 
     }
 
-
-
-
 	 /**
 	 * Version Switch
 	 */
 	public static function version_switch($plugin_slug,$version) {
         
 		if ( empty( $version )  ) {
-			wp_die( __( 'Error occurred, The version selected is invalid. Try selecting different version.', 'elementor' ) );
+			wp_die( __( 'Error occurred, The version selected is invalid. Try selecting different version.', 'version-switcher' ) );
 		}
 
 		$switch = new Switcher(
@@ -67,7 +55,7 @@ class Version {
 		$switch->run();
 
 		wp_die(
-			'', __( 'Rollback to Previous Version', 'elementor' ), [
+			'', __( 'Rollback to Previous Version', 'version-switcher' ), [
 				'response' => 200,
 			]
 		);
@@ -99,20 +87,17 @@ class Version {
 
     }
     
-
-
-
     
     /**
 	 * Save version to transient.
 	 */
-    public static function save_version_data ($plugin_slug,$transient_key,$return = false,$max_versions =100000){
+    public static function save_version_data ( $plugin_slug, $transient_key, $return = false, $max_versions =100000 ){
     
         if ( ! function_exists( 'plugins_api' ) ) {
             require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         }
 
-        self::save_all_cache_key($transient_key);
+        self::save_all_cache_key( $transient_key );
     
         $plugin_information = plugins_api(
             'plugin_information', [
@@ -144,11 +129,7 @@ class Version {
                 if ( $max_versions <= $current_index ) {
                     break;
                 }
-    
-                // if ( version_compare( $version, ELEMENTOR_VERSION, '>=' ) ) {
-                // 	continue;
-                // }
-    
+
                 if ( 'trunk' === $version) {
                     continue;
                 }
@@ -168,15 +149,15 @@ class Version {
     }
 
 
-
-
     /**
     * Get Installed Plugin Info
     */
    public static function get_all_installed_plugin(){
+
        if ( ! function_exists( 'get_plugins' ) ) {
            require_once ABSPATH . 'wp-admin/includes/plugin.php';
        }
+       
        $all_plugins = get_plugins();
        $all_plugins_slug = [];
        foreach ( $all_plugins as $key => $value) {
@@ -203,9 +184,11 @@ class Version {
     * Get update plugin info
     */
    public static function get_updates_plugin(){
+
        if ( ! function_exists( 'get_plugins' ) ) {
            require_once ABSPATH . 'wp-admin/includes/plugin.php';
        }
+
        $update_info = get_plugin_updates();
        $update_vs = [];
     
@@ -218,16 +201,13 @@ class Version {
    }
 
 
-
     /**
     * Check is update version ixist in cache
     */
    public static function is_version_exist_in_cache( array $all_versions, $key ){
+
        $update_info = self::get_updates_plugin();
        return in_array( $update_info[$key], $all_versions );
    }
-
-
-
 
 }
