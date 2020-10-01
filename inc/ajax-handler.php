@@ -16,21 +16,21 @@ function wpvs__ajax_handler_func() {
         $versions = get_transient( $transient_key );
 
         if ( false === $versions ) {
-            IqbalRony\Version::save_version_data( $slug,  $transient_key, true );
+            IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
             $versions = get_transient( $transient_key );
         }
         
         if( is_array($versions) && !array_key_exists('errors',$versions) ){
-            $need_cache_update = \IqbalRony\Version::is_version_exist_in_cache( $versions, str_replace( "-", "_", $slug ) );
+            $need_cache_update = \IqbalRony\WP_Version_Switcher\Version::is_version_exist_in_cache( $versions, str_replace( "-", "_", $slug ) );
             if( false == $need_cache_update ){
-                IqbalRony\Version::save_version_data( $slug,  $transient_key, true );
+                IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
                 $versions = get_transient( $transient_key );
                 
             }
         }
         
         if( is_curl_failed($versions) ){
-            IqbalRony\Version::save_version_data( $slug,  $transient_key, true );
+            IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
             $versions = get_transient( $transient_key ); 
         }
 

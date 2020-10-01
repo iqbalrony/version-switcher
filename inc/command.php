@@ -1,6 +1,6 @@
 <?php
 
-namespace IqbalRony;
+namespace IqbalRony\WP_Version_Switcher;
 
 /**
  * WP Version Switcher Commands

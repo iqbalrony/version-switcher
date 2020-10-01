@@ -26,7 +26,7 @@ function is_curl_failed($data){
  */
 function wpvs_delete_all_cache(){
 	
-	$all_slugs = IqbalRony\Version::get_all_installed_plugin();
+	$all_slugs = IqbalRony\WP_Version_Switcher\Version::get_all_installed_plugin();
 	if( $all_slugs ){
 		foreach ( $all_slugs as $key => $value ) {
 			delete_transient( wpvs_get_key( $value['plugin_slug'] ) );

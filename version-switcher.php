@@ -10,8 +10,6 @@
  * Text Domain: version-switcher
  */
 
-// version-switcher
-// version-switcher @version-switcher
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
@@ -55,7 +53,7 @@ function wpvs_start_version_switch() {
 	require_once( wpvs_get_plugin_path( 'inc/plugin.php' ) );
 	require_once( wpvs_get_plugin_path( 'inc/functions.php' ) );
 	
-	IqbalRony\VersionSwitcher::instance()->init();
+	IqbalRony\WP_Version_Switcher\VersionSwitcher::instance()->init();
 }
 add_action( 'plugins_loaded', 'wpvs_start_version_switch' );
 

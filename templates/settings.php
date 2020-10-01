@@ -1,5 +1,6 @@
 <?php
-namespace IqbalRony;
+
+namespace IqbalRony\WP_Version_Switcher;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;

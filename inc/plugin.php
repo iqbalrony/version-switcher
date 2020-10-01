@@ -1,6 +1,7 @@
 <?php
 
-namespace IqbalRony;
+namespace IqbalRony\WP_Version_Switcher;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly

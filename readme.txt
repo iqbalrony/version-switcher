@@ -35,8 +35,4 @@ yes, it will help but the plugin version must exist in WordPress org.
 
 == Screenshots ==
 
-1. User Switch Table.
-2. User Switch Settings.
-3. User Switch Adminbar Menu.
-4. User Switch Admin Page.
-5. User Switch Front-End Sticky Menu.
+1. Version Switcher Settings page.
