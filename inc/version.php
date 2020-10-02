@@ -26,13 +26,15 @@ class Version {
 			return;
 		}
 
-		
-		$all_version = get_transient( wpvs_get_key( $_POST['slug'] ) );
-		if( is_array($all_version) && !in_array( $_POST['version'], $all_version) ){
+        $slug = esc_html( $_POST['slug'] );
+        $version = esc_html( $_POST['version'] );
+        
+        $all_version = get_transient( wpvs_get_key(  $slug ) );
+		if( is_array($all_version) && !in_array( $version, $all_version) ){
 			return;
 		}
 		
-		Version::version_switch( $_POST['slug'], $_POST['version'] );
+		Version::version_switch(  $slug, $version );
 
     }
 
@@ -70,6 +72,8 @@ class Version {
 	 */
 	public static function save_all_cache_key($key){
 
+        $key = esc_html( $key );
+
         $all_keys = get_transient( wpvs_get_key( 'cache_key' ) );
 
         if ( false === $all_keys ) {
@@ -103,7 +107,7 @@ class Version {
     
         $plugin_information = plugins_api(
             'plugin_information', [
-                'slug' => $plugin_slug,
+                'slug' => esc_html( $plugin_slug ),
                 'fields' => [
                     'version' => true,
                     'versions' => true,

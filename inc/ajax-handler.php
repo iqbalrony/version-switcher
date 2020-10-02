@@ -9,7 +9,7 @@ function wpvs__ajax_handler_func() {
 	$security = check_ajax_referer('wpvs_version_switcher', 'security');
 	if (true == $security && !empty($_POST['plugin_slug'])) :
 
-        $slug = $_POST['plugin_slug'];
+        $slug = esc_html( $_POST['plugin_slug'] );
 
         $transient_key = wpvs_get_key( $slug );
 

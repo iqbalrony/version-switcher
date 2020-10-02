@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-Version::switch_version_apply( );
+Version::switch_version_apply();
 $all_plugins = Version::get_all_installed_plugin();
 
 ?>
