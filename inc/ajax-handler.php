@@ -9,7 +9,7 @@ function irvs_ajax_handler_func() {
 	$security = check_ajax_referer('irvs_version_switcher', 'security');
 	if (true == $security && !empty($_POST['plugin_slug'])) :
 
-        $slug = esc_html( $_POST['plugin_slug'] );
+        $slug = sanitize_text_field( $_POST['plugin_slug'] );
 
         $transient_key = irvs_get_key( $slug );
 
