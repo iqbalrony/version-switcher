@@ -15,48 +15,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-define( 'WPVS_VERSION', '1.0.0' );
-define( 'WPVS__FILE__', __FILE__ );
-define( 'WPVS_DIR_PATH', plugin_dir_path( WPVS__FILE__ ) );
-define( 'WPVS_KEY', 'wpvs_version_switcher_' );
+define( 'IRVS_VERSION', '1.0.0' );
+define( 'IRVS__FILE__', __FILE__ );
+define( 'IRVS_DIR_PATH', plugin_dir_path( IRVS__FILE__ ) );
+define( 'IRVS_KEY', 'irvs_version_switcher_' );
 
 /**
  * Get plugin path.
  */
-if ( ! function_exists( 'wpvs_get_plugin_path' ) ) {
-	function wpvs_get_plugin_path( $file ) {
-		return WPVS_DIR_PATH . $file;
+if ( ! function_exists( 'irvs_get_plugin_path' ) ) {
+	function irvs_get_plugin_path( $file ) {
+		return IRVS_DIR_PATH . $file;
 	}
 }
 
 /**
  * Get plugin url.
  */
-if ( ! function_exists( 'wpvs_plugin_url' ) ) {
-	function wpvs_plugin_url( $url ) {
-		return plugins_url( $url, WPVS__FILE__ );
+if ( ! function_exists( 'irvs_plugin_url' ) ) {
+	function irvs_plugin_url( $url ) {
+		return plugins_url( $url, IRVS__FILE__ );
 	}
 }
 
 /**
  * defining plugin menu page slug.
  */
-if ( ! defined( 'WPVS_MENU_PAGE_SLUG' ) ) {
+if ( ! defined( 'IRVS_MENU_PAGE_SLUG' ) ) {
 	$menu_slug = sanitize_key( 'version-switcher' );
-	define( 'WPVS_MENU_PAGE_SLUG', $menu_slug );
+	define( 'IRVS_MENU_PAGE_SLUG', $menu_slug );
 }
 
 /**
  * Start the journey of version switcher.
  */
-function wpvs_start_version_switch() {
-	require_once( wpvs_get_plugin_path( 'inc/plugin.php' ) );
-	require_once( wpvs_get_plugin_path( 'inc/functions.php' ) );
+function irvs_start_version_switch() {
+	require_once( irvs_get_plugin_path( 'inc/plugin.php' ) );
+	require_once( irvs_get_plugin_path( 'inc/functions.php' ) );
 	
-	IqbalRony\WP_Version_Switcher\VersionSwitcher::instance()->init();
+	IqbalRony\VersionSwitcher\VersionSwitcher::instance()->init();
 }
-add_action( 'plugins_loaded', 'wpvs_start_version_switch' );
+add_action( 'plugins_loaded', 'irvs_start_version_switch' );
 
 // Delete all the cash of this plugin from database
-register_deactivation_hook( __FILE__, 'wpvs_delete_all_cache' );
+register_deactivation_hook( __FILE__, 'irvs_delete_all_cache' );
 

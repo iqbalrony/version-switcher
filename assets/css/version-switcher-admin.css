@@ -1,4 +1,4 @@
-.wpvs-settings-area {
+.irvs-settings-area {
     background: #ffffff;
     padding: 40px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
@@ -6,53 +6,53 @@
 }
 
 
-.wpvs-settings-title {
+.irvs-settings-title {
     font-size: 30px;
     margin-top: 0;
     margin-bottom: 25px;
 }
 
-.wpvs-settings-area p.main-desc {
+.irvs-settings-area p.main-desc {
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-.wpvs-settings {
+.irvs-settings {
     margin-top: 35px;
     display: block;
 }
 
-.wpvs-plugin-name-area,
-.wpvs-plugin-version-area {
+.irvs-plugin-name-area,
+.irvs-plugin-version-area {
     display: flex;
     align-items: start;
 }
 
-.wpvs-plugin-name-area {
+.irvs-plugin-name-area {
     margin-bottom: 35px;
 }
 
-.wpvs-plugin-name,
-.wpvs-plugin-version {
+.irvs-plugin-name,
+.irvs-plugin-version {
     margin-right: 25px;
     min-width: 120px;
 }
 
-.wpvs-plugin-name h2,
-.wpvs-plugin-version h2 {
+.irvs-plugin-name h2,
+.irvs-plugin-version h2 {
     margin-top: 0;
 }
 
-.wpvs-plugin-version-select {
+.irvs-plugin-version-select {
     position: relative;
 }
 
-.wpvs-plugin-name-select select,
-.wpvs-plugin-version-select select {
+.irvs-plugin-name-select select,
+.irvs-plugin-version-select select {
     width: 250px;
 }
 
-.wpvs-settings .wpvs-plugin-version-select i.dashicons-before.dashicons-update-alt {
+.irvs-settings .irvs-plugin-version-select i.dashicons-before.dashicons-update-alt {
     color: #f56e28;
     display: inline-block;
     animation: rotation 2s infinite linear;
@@ -61,7 +61,7 @@
     right: -23px;
 }
 
-.wpvs-plugin-version-select .notice {
+.irvs-plugin-version-select .notice {
     margin: 0;
     box-sizing: border-box;
     border-right: 0;

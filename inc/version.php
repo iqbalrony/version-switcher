@@ -1,6 +1,6 @@
 <?php
 
-namespace IqbalRony\WP_Version_Switcher;
+namespace IqbalRony\VersionSwitcher;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -18,18 +18,18 @@ class Version {
 			return;
         }
 
-		if ( empty( $_POST['slug'] ) || empty( $_POST['version'] ) ||  empty( $_POST['wpvs_submit'] ) ||  empty( $_POST['wpvs_nonce'] ) ) {
+		if ( empty( $_POST['slug'] ) || empty( $_POST['version'] ) ||  empty( $_POST['irvs_submit'] ) ||  empty( $_POST['irvs_nonce'] ) ) {
 			return;
 		}
         
-		if ( $_POST['wpvs_submit'] !== 'submit' || !wp_verify_nonce( $_POST['wpvs_nonce'], 'wpvs_version_switcher' ) ) {
+		if ( $_POST['irvs_submit'] !== 'submit' || !wp_verify_nonce( $_POST['irvs_nonce'], 'irvs_version_switcher' ) ) {
 			return;
 		}
 
-        $slug = esc_html( $_POST['slug'] );
-        $version = esc_html( $_POST['version'] );
+        $slug = sanitize_text_field( $_POST['slug'] );
+        $version = sanitize_text_field( $_POST['version'] );
         
-        $all_version = get_transient( wpvs_get_key(  $slug ) );
+        $all_version = get_transient( irvs_get_key(  $slug ) );
 		if( is_array($all_version) && !in_array( $version, $all_version) ){
 			return;
 		}
@@ -74,13 +74,13 @@ class Version {
 
         $key = esc_html( $key );
 
-        $all_keys = get_transient( wpvs_get_key( 'cache_key' ) );
+        $all_keys = get_transient( irvs_get_key( 'cache_key' ) );
 
         if ( false === $all_keys ) {
 
             $added_key = [$key];
 
-            set_transient( wpvs_get_key( 'cache_key' ), $added_key );
+            set_transient( irvs_get_key( 'cache_key' ), $added_key );
 
         } elseif( is_array($all_keys) && !in_array( $key, $all_keys) ){
 
@@ -88,7 +88,7 @@ class Version {
             $new_array = [$key];
             
             $added_plugin = array_merge( $old_array, $new_array );
-            set_transient( wpvs_get_key( 'cache_key' ), $added_plugin );
+            set_transient( irvs_get_key( 'cache_key' ), $added_plugin );
         }
 
     }

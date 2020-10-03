@@ -1,6 +1,6 @@
 <?php
 
-namespace IqbalRony\WP_Version_Switcher;
+namespace IqbalRony\VersionSwitcher;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -33,13 +33,13 @@ class VersionSwitcher {
 	 */
 	public function admin_scripts() {
 
-		wp_enqueue_style( 'wpvs-admin-css', wpvs_plugin_url( '/assets/css/version-switcher-admin.css' ), '', '' );
+		wp_enqueue_style( 'irvs-admin-css', irvs_plugin_url( '/assets/css/version-switcher-admin.css' ), '', '' );
 
-		wp_enqueue_script( 'wpvs-admin-js', wpvs_plugin_url( '/assets/js/version-switcher-admin.js' ), array( 'jquery' ), '', true );
+		wp_enqueue_script( 'irvs-admin-js', irvs_plugin_url( '/assets/js/version-switcher-admin.js' ), array( 'jquery' ), '', true );
 
-		wp_localize_script( 'wpvs-admin-js', 'wpvs_admin_localize', array(
+		wp_localize_script( 'irvs-admin-js', 'irvs_admin_localize', array(
 			'ajax_url'   => admin_url( 'admin-ajax.php' ),
-			'wpvs_nonce' => wp_create_nonce( 'wpvs_version_switcher' ),
+			'irvs_nonce' => wp_create_nonce( 'irvs_version_switcher' ),
 		) );
 	}
 
@@ -48,9 +48,9 @@ class VersionSwitcher {
 	 * Include files
 	 */
 	public static function include_file() {
-		require_once( wpvs_get_plugin_path( 'inc/version.php' ) );
-		require_once( wpvs_get_plugin_path( 'inc/switcher.php' ) );
-		require_once( wpvs_get_plugin_path( 'inc/ajax-handler.php' ) );
+		require_once( irvs_get_plugin_path( 'inc/version.php' ) );
+		require_once( irvs_get_plugin_path( 'inc/switcher.php' ) );
+		require_once( irvs_get_plugin_path( 'inc/ajax-handler.php' ) );
 	}
 
 
@@ -62,7 +62,7 @@ class VersionSwitcher {
 			__( 'Version Switcher', 'version-switcher' ),
 			__( 'Version Switcher', 'version-switcher' ),
 			'manage_options',
-			WPVS_MENU_PAGE_SLUG,
+			IRVS_MENU_PAGE_SLUG,
 			array( $this, 'menu_page_markup' ),
 			'dashicons-update-alt'
 		);
@@ -73,7 +73,7 @@ class VersionSwitcher {
 	 * Include setting page markup
 	 */
 	public function menu_page_markup() {
-		require_once wpvs_get_plugin_path( 'templates/settings.php' );
+		require_once irvs_get_plugin_path( 'templates/settings.php' );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class VersionSwitcher {
 	 */
 	public function registerCommands() {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once wpvs_get_plugin_path( 'inc/command.php' );
+			require_once irvs_get_plugin_path( 'inc/command.php' );
 			\WP_CLI::add_command( 'vs', Command::class );
 		}
 	}

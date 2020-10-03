@@ -3,34 +3,34 @@
 /**
  * Post Type Ajax Load More
  */
-add_action('wp_ajax_wpvs_get_all_version', 'wpvs__ajax_handler_func');
-function wpvs__ajax_handler_func() {
+add_action('wp_ajax_irvs_get_all_version', 'irvs_ajax_handler_func');
+function irvs_ajax_handler_func() {
 
-	$security = check_ajax_referer('wpvs_version_switcher', 'security');
+	$security = check_ajax_referer('irvs_version_switcher', 'security');
 	if (true == $security && !empty($_POST['plugin_slug'])) :
 
         $slug = esc_html( $_POST['plugin_slug'] );
 
-        $transient_key = wpvs_get_key( $slug );
+        $transient_key = irvs_get_key( $slug );
 
         $versions = get_transient( $transient_key );
 
         if ( false === $versions ) {
-            IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
+            IqbalRony\VersionSwitcher\Version::save_version_data( $slug,  $transient_key, true );
             $versions = get_transient( $transient_key );
         }
         
         if( is_array($versions) && !array_key_exists('errors',$versions) ){
-            $need_cache_update = \IqbalRony\WP_Version_Switcher\Version::is_version_exist_in_cache( $versions, str_replace( "-", "_", $slug ) );
+            $need_cache_update = \IqbalRony\VersionSwitcher\Version::is_version_exist_in_cache( $versions, str_replace( "-", "_", $slug ) );
             if( false == $need_cache_update ){
-                IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
+                IqbalRony\VersionSwitcher\Version::save_version_data( $slug,  $transient_key, true );
                 $versions = get_transient( $transient_key );
                 
             }
         }
         
-        if( is_curl_failed($versions) ){
-            IqbalRony\WP_Version_Switcher\Version::save_version_data( $slug,  $transient_key, true );
+        if( irvs_is_curl_failed($versions) ){
+            IqbalRony\VersionSwitcher\Version::save_version_data( $slug,  $transient_key, true );
             $versions = get_transient( $transient_key ); 
         }
 

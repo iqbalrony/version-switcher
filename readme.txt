@@ -7,7 +7,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.4
 Requires at least: 4.5
-Tested up to: 5.3.2
+Tested up to: 5.5.1
 Tags: version-switcher,wp-version-switcher,version,switcher,version-switch,update,switch,version-switching,switch-version,rollback.
 
 **Version Switcher** is a very simple plugin which will help you to switch instantly between all plugin's version which exists in WordPress org and there is no anxiety about download and upload task because just one click will do that for you.

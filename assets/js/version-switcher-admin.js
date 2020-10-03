@@ -10,7 +10,7 @@
 			var pluginSlug = e.currentTarget.options[e.currentTarget.options.selectedIndex].value;
 
 			var self = $(this);
-			var versionWrap = $('.wpvs-plugin-version-select');
+			var versionWrap = $('.irvs-plugin-version-select');
 			var versionSelect = versionWrap.find('select');
 			var notice = versionWrap.find('.notice');
 			var loadingIcon = $('<i class="dashicons-before dashicons-update-alt"></i>');
@@ -19,11 +19,11 @@
 			versionSelect.attr("disabled", true);
 
 			$.ajax({
-				url: wpvs_admin_localize.ajax_url,
+				url: irvs_admin_localize.ajax_url,
 				type: 'POST',
 				data: {
-					action: "wpvs_get_all_version",
-					security: wpvs_admin_localize.wpvs_nonce,
+					action: "irvs_get_all_version",
+					security: irvs_admin_localize.irvs_nonce,
 					plugin_slug: pluginSlug,
 				},
 				beforeSend: function () {
@@ -55,7 +55,7 @@
 				error: function (error) { }
 			});
 		}
-		var select = $('.wpvs-plugin-name-select select');
+		var select = $('.irvs-plugin-name-select select');
 		select.on("change", ajaxClickHandlerfunction);
 
 	});
