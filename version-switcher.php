@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Version Switcher
- * Description: this is custom post type messonary plugin.
+ * Description: This is a very simple plugin which will help you to switch instantly between all plugin's version which exists in WordPress org and there is no anxiety about download and upload task because just one click will do that for you.
  * Author: IqbalRony
  * Author URI: http://www.iqbalrony.com
  * Version: 1.0.0
@@ -52,11 +52,10 @@ if ( ! defined( 'IRVS_MENU_PAGE_SLUG' ) ) {
 function irvs_start_version_switch() {
 	require_once( irvs_get_plugin_path( 'inc/plugin.php' ) );
 	require_once( irvs_get_plugin_path( 'inc/functions.php' ) );
-	
+
 	IqbalRony\VersionSwitcher\VersionSwitcher::instance()->init();
 }
 add_action( 'plugins_loaded', 'irvs_start_version_switch' );
 
 // Delete all the cash of this plugin from database
 register_deactivation_hook( __FILE__, 'irvs_delete_all_cache' );
-
