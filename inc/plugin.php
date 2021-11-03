@@ -11,17 +11,32 @@ class VersionSwitcher {
 
 	private static $instance = null;
 
+	private function __construct() {
+		add_action( 'init', [ $this, 'i18n' ] );
+	}
+	
+	/**
+	 * Text Domain Register.
+	 */
+	public function i18n() {
+		load_plugin_textdomain(
+			'version-switcher',
+			false,
+			dirname( plugin_basename( IRVS__FILE__ ) ) . '/i18n/'
+		);
+	}
+
 	public function init() {
 
 		//enqueue admin style & scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		
+
 		//includes file
 		self::include_file();
-		
+
 		//add plugin setting page
 		add_action( 'admin_menu', array( $this, 'menu_page' ) );
-		
+
 		//regiter commands
 		$this->registerCommands();
 

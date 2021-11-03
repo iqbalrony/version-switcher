@@ -4,7 +4,7 @@
  * Description: This is a very simple plugin which will help you to switch instantly between all plugin's version which exists in WordPress org and there is no anxiety about download and upload task because just one click will do that for you.
  * Author: IqbalRony
  * Author URI: http://www.iqbalrony.com
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: version-switcher
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-define( 'IRVS_VERSION', '1.0.0' );
+define( 'IRVS_VERSION', '1.0.1' );
 define( 'IRVS__FILE__', __FILE__ );
 define( 'IRVS_DIR_PATH', plugin_dir_path( IRVS__FILE__ ) );
 define( 'IRVS_KEY', 'irvs_version_switcher_' );
